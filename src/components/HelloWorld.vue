@@ -33,10 +33,24 @@
 </template>
 
 <script>
+import { getNewUserMenu } from '@/api/user'
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
+    msg: {
+      type: String,
+      default: ''
+    }
+  },
+  created() {
+    this.handleGetNewUserMenu()
+  },
+  methods: {
+    handleGetNewUserMenu() {
+      getNewUserMenu().then(res => {
+        console.log(res)
+      })
+    }
   }
 }
 </script>
