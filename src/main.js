@@ -11,6 +11,8 @@ import '@/styles/index.scss' // global css
 
 import './permission' // permission control
 
+import './assets/css/global.css'
+
 Vue.config.productionTip = false
 
 Vue.use(Element, {
