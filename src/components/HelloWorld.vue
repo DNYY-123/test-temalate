@@ -34,6 +34,7 @@
 
 <script>
 import { getNewUserMenu } from '@/api/user'
+import { getCategoryList } from '@/api/demand'
 export default {
   name: 'HelloWorld',
   props: {
@@ -44,6 +45,10 @@ export default {
   },
   created() {
     this.handleGetNewUserMenu()
+    getCategoryList()
+      .then(res => {
+        console.log(res)
+      })
   },
   methods: {
     handleGetNewUserMenu() {
