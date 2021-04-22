@@ -15,8 +15,8 @@
     </el-row>
   </div>
   <div class="input-line">
-    <el-form :inline="true" class="" label-width="110px" label-position="right" size="small">
-      <el-form-item label="产品大类">
+    <el-form :inline="true" :model="formData" ref="formData" label-width="110px" label-position="right" size="small" class="demo-ruleForm">
+      <el-form-item label="产品大类" prop="categoryName">
         <el-select v-model="formData.categoryName" placeholder="请选择产品大类">
           <el-option
             v-for="item in categoryNameList"
@@ -26,7 +26,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="产品小类">
+      <el-form-item label="产品小类" prop="subcategoryName">
         <el-select v-model="formData.subcategoryName" placeholder="请选择产品小类">
           <el-option
             v-for="item in subcategoryNameList"
@@ -36,7 +36,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="产品类型">
+      <el-form-item label="产品类型" prop="productType">
         <el-select v-model="formData.productType" placeholder="请选择产品类型">
           <el-option
             v-for="item in productTypeList"
@@ -46,19 +46,19 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="SKU">
+      <el-form-item label="SKU" prop="erpSku">
         <el-input v-model="formData.erpSku" placeholder="请输入SKU"></el-input>
       </el-form-item>
-      <el-form-item label="Model">
+      <el-form-item label="Model" prop="model">
         <el-input v-model="formData.model" placeholder="请输入Model"></el-input>
       </el-form-item>
-      <el-form-item label="需求编号">
+      <el-form-item label="需求编号" prop="getDemandStatus">
         <el-input v-model="formData.getDemandStatus" placeholder="请输入需求编号"></el-input>
       </el-form-item>
-      <el-form-item label="事业部/team">
+      <el-form-item label="事业部/team" prop="team">
         <el-input v-model="formData.team" placeholder="请输入事业部/team"></el-input>
       </el-form-item>
-      <el-form-item label="需求状态">
+      <el-form-item label="需求状态" prop="status">
         <el-select v-model="formData.status" placeholder="请选择需求状态">
           <el-option
             v-for="item in statusList"
@@ -68,7 +68,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="PM">
+      <el-form-item label="PM" prop="pmUserId">
         <el-select v-model="formData.pmUserId" placeholder="请选择PM">
           <el-option
             v-for="item in pmUserIdList"
@@ -78,7 +78,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="过会时间">
+      <el-form-item label="过会时间" prop="meetingDate">
         <el-date-picker
           v-model="formData.meetingDate"
           type="daterange"
@@ -87,7 +87,7 @@
           end-placeholder="结束日期">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="计划上架时间">
+      <el-form-item label="计划上架时间" prop="upSelDate">
         <el-date-picker
           v-model="formData.upSelDate"
           type="daterange"
@@ -99,8 +99,8 @@
       <br>
       <div class="input-btn">
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" plain>搜索</el-button>
-          <el-button @click="clearBtn" icon="el-icon-refresh-left">重置</el-button>
+          <el-button @click="search" type="primary" icon="el-icon-search" plain>搜索</el-button>
+          <el-button @click="clearBtn('formData')" icon="el-icon-refresh-left">重置</el-button>
         </el-form-item>
       </div>
       <el-form-item>
@@ -346,7 +346,6 @@ export default {
     // 获取需求列表
     handleGetDemandList() {
       getDemandList(this.formData).then(res => {
-        console.log(res.data[1])
         if (res.data.length !== 0) {
           this.tableView = [] // 清除之前的数据
           this.tableData = res.data
@@ -360,6 +359,15 @@ export default {
           }
         }
       })
+    },
+    // 数据查询
+    search() {
+      console.log(1)
+    },
+    // 清除表单
+    clearBtn(formName) {
+      // Object.assign(this.$data, this.$options.data())
+      this.$refs[formName].resetFields()
     },
     // async handleGetDemandListTest() {
     //   // const res = await getDemandList(this.formData)
@@ -380,7 +388,6 @@ export default {
     // },
     // 当前页码改变
     handleCurrentChange(val) {
-      console.log(val)
       if (val !== 1) {
         val = (val - 1) * this.pageSize
       }
@@ -394,18 +401,6 @@ export default {
     // 每页显示条数改变
     handleSizeChange(newSize) {
       this.pageSize = newSize
-      this.handleGetDemandList()
-    },
-    // 清除表单
-    clearBtn() {
-      Object.assign(this.$data, this.$options.data())
-      // 重新请求数据
-      this.handleGetCategoryList()
-      this.handleGetSubCategoryList()
-      this.handleGetProductTypeList()
-      this.handleGetPlmActiveGroupList()
-      this.handleGetDemandStatusList()
-      this.handleGetProductManagerList()
       this.handleGetDemandList()
     }
   }
