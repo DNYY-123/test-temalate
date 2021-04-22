@@ -29,18 +29,25 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <el-select v-model="" placeholder="">
+      <el-option v-for="(item,index) in  list" :key="index" :label="item.label" :value="item.value"></el-option>
+    </el-select>
   </div>
 </template>
 
 <script>
 import { getNewUserMenu } from '@/api/user'
-import { getCategoryList } from '@/api/demand'
+import { getCategoryList, getDemandList } from '@/api/demand'
 export default {
   name: 'HelloWorld',
   props: {
     msg: {
       type: String,
       default: ''
+    },
+    list: [],
+    form: {
+      categoryName: ''
     }
   },
   created() {
@@ -49,11 +56,16 @@ export default {
       .then(res => {
         console.log(res)
       })
+      getDemandList(this.form)
+        .then(res => {
+          this.tableList = res.data
+        })
   },
   methods: {
     handleGetNewUserMenu() {
       getNewUserMenu().then(res => {
         console.log(res)
+        this.list = res.data
       })
     }
   }

@@ -61,7 +61,7 @@ export default {
   methods: {
     handleGetNewUserMenu() {
       getNewUserMenu().then(res => {
-        console.log(res + '123')
+        // console.log(res.data)
       })
     }
   }

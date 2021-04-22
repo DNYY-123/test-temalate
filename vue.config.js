@@ -35,7 +35,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: `http://api.dev.nearbyexpress.com`,
+        target: `http://api.test.nearbyexpress.com`,
         changeOrigin: true,
         pathRewrite: {
           '^/api': `/api`

@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<class="container">
   <div class="tip">
     <el-row>
       <el-col :span="4" :offset="1">
@@ -14,142 +14,113 @@
       </el-col>
     </el-row>
   </div>
-  <div class="input-line">
-    <el-row >
-      <el-col :span="6" :offset="0">
-        <span class="demonstration">产品大类</span>
-        <el-select v-model="value1" multiple placeholder="请选择产品大类" size="small">
+  <!-- <div class="input-line">
+    <el-form :inline="true" class="demo-form-inline">
+      <el-form-item label="产品大类">
+        <el-select v-model="formData.categoryName" placeholder="请选择产品大类">
           <el-option
-            v-for="item in options"
+            v-for="item in categoryNameList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
           </el-option>
         </el-select>
-      </el-col>
-      <el-col :span="6" :offset="0">
-        <span class="demonstration">产品小类</span>
-        <el-select v-model="value1" multiple placeholder="请选择产品大类" size="small">
+      </el-form-item>
+      <el-form-item label="产品小类">
+        <el-select v-model="formData.subcategoryName" placeholder="请选择产品小类">
           <el-option
-            v-for="item in options"
+            v-for="item in subcategoryNameList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
           </el-option>
         </el-select>
-      </el-col>
-      <el-col :span="6" :offset="0" >
-      <span class="demonstration">产品类型</span>
-      <el-select v-model="value1" multiple placeholder="请选择产品大类" size="small">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      </el-col>
-      <el-col :span="6" :offset="0" >
-        <span class="demonstration">SKU</span>
-        <el-input v-model="input" placeholder="请输入内容" label="123" style="width:52%"></el-input>
-      </el-col>
-    </el-row>
-  </div>
-  <div class="input-line">
-    <el-row >
-      <el-col :span="6" :offset="0" >
-      <div class="demo-input-suffix">
-        <span class="demonstration">Model</span>
-        <el-input v-model="input" placeholder="请输入内容" style="width:52%"></el-input>
-      </div>
-      </el-col>
-      <el-col :span="6" :offset="0" >
-      <div class="demo-input-suffix">
-        <span class="demonstration">需求编号</span>
-        <el-input v-model="input" placeholder="请输入内容" size="mini" style="width:52%"></el-input>
-      </div>
-      </el-col>
-      <el-col :span="6" :offset="0">
-      <span class="demonstration">事业部</span>
-      <el-select v-model="value1" multiple placeholder="请选择产品大类" size="small">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      </el-col>
-      <el-col :span="6" :offset="0">
-      <span class="demonstration">需求状态</span>
-      <el-select v-model="value1" multiple placeholder="请选择产品大类" size="small">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      </el-col>
-    </el-row>
-  </div>
-  <div class="input-line">
-    <el-row >
-      <el-col :span="6" :offset="0">
-      <span class="demonstration">PM</span>
-      <el-select v-model="value1" multiple placeholder="请选择产品大类" size="small">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      </el-col>
-      <el-col :span="6" :offset="0">
-      <span class="demonstration">过会时间</span>
-      <el-date-picker
-        v-model="value1"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        style="width:52%">
-      </el-date-picker>
-      </el-col>
-      <el-col :span="6" :offset="0">
-      <span class="demonstration">计划上架时间</span>
-      <el-date-picker
-        v-model="value1"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        style="width:52%">
-      </el-date-picker>
-      </el-col>
-    </el-row>
-  </div>
+      </el-form-item>
+      <el-form-item label="产品类型">
+        <el-select v-model="formData.productType" placeholder="请选择产品类型">
+          <el-option
+            v-for="item in productTypeListList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="SKU">
+        <el-input v-model="formData.erpSku" placeholder="请输入SKU"></el-input>
+      </el-form-item>
+      <el-form-item label="Model">
+        <el-input v-model="formData.model" placeholder="请输入Model"></el-input>
+      </el-form-item>
+      <el-form-item label="需求编号">
+        <el-input v-model="formData.getDemandStatus" placeholder="请输入需求编号"></el-input>
+      </el-form-item>
+      <el-form-item label="事业部/team">
+        <el-input v-model="formData.team" placeholder="请输入事业部/team"></el-input>
+      </el-form-item>
+      <el-form-item label="需求状态">
+        <el-select v-model="formData.status" placeholder="请选择需求状态">
+          <el-option
+            v-for="item in statusList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="PM">
+        <el-select v-model="formData.pmUserId" placeholder="请选择PM">
+          <el-option
+            v-for="item in pmUserIdList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="过会时间">
+        <el-date-picker
+          v-model="formData.meetingDate"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="计划上架时间">
+        <el-date-picker
+          v-model="formData.upSelDate"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">查询</el-button>
+      </el-form-item>
+    </el-form>
+  </div> -->
   <div class="input-btn">
     <el-row >
       <el-col :span="6" :offset="8">
         <el-button type="primary" plain icon="el-icon-search">搜索</el-button>
       </el-col>
       <el-col :span="6" :offset="0">
-        <el-button  icon="el-icon-refresh-right">重置</el-button>
+        <el-button icon="el-icon-refresh-right" @click="clearBtn">重置</el-button>
       </el-col>
     </el-row>
   </div>
   <el-row>
     <el-col :span="6" :offset="1">
-      <el-button type="primary" plain >+新建需求</el-button>
-      <el-button  >复制</el-button>
+      <el-button type="primary" plain>+新建需求</el-button>
+      <el-button>复制</el-button>
     </el-col>
   </el-row>
   <div class="tab">
-     <el-table
+    <el-table
       ref="multipleTable"
-      :data="tableData"
+      :data="tableView"
       tooltip-effect="dark"
       style="width:100%;"
       height="100%"
@@ -160,42 +131,42 @@
         width="55">
       </el-table-column>
       <el-table-column
-        prop="date"
+        prop="proposalInfoNo"
         label="需求编号"
         width="250">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="categoryName"
         label="产品大类"
         width="250
         ">
       </el-table-column>
       <el-table-column
-        prop="province"
+        prop="subCategoryName"
         label="产品小类"
         width="250
         ">
       </el-table-column>
       <el-table-column
-        prop="city"
+        prop="productType"
         label="产品类型"
         width="250
         ">
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="model"
         label="Model"
         width="250
         ">
       </el-table-column>
       <el-table-column
-        prop="zip"
+        prop="erpSku"
         label="SKU"
         width="250
         ">
       </el-table-column>
       <el-table-column
-        prop="zip"
+        prop="proposalInfoNo"
         label="需求编号"
         width="250
         ">
@@ -207,13 +178,7 @@
         ">
       </el-table-column>
       <el-table-column
-        prop="zip"
-        label="需求状态"
-        width="250
-        ">
-      </el-table-column>
-      <el-table-column
-        prop="zip"
+        prop="status"
         label="需求状态"
         width="250
         ">
@@ -226,8 +191,8 @@
       </el-table-column>
       <el-table-column
         fixed="right"
-        label="项目状态"
-        prop="zt"
+        label="计划上架时间"
+        prop="upSelfDate"
         width="150
         ">
       </el-table-column>
@@ -245,15 +210,19 @@
           </el-button>
         </template>
    </el-table-column>
- </el-table>
+    </el-table>
   </div>
   <div class="page">
     <div class="block">
       <el-pagination
-        :page-sizes="[15]"
-        :page-size="15"
-        layout="prev, pager, next, jumper, sizes"
-        :total="60">
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :page-sizes="[5, 10, 15, 20 ]"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :total="total"
+        layout="prev, pager, next, jumper, sizes, total"
+        >
       </el-pagination>
     </div>
   </div>
@@ -261,67 +230,186 @@
 </template>
 
 <script>
+import {
+  getCategoryList, getSubCategoryList,
+  getProductTypeList, getPlmActiveGroupList,
+  getDemandList, getDemandStatusList,
+  getProductManagerList
+} from '@/api/demand'
 export default {
   data() {
     return {
-      tabPosition: 'left',
-      options:
-        [{
-          value: 1,
-          lable: '1'
-        }],
-      value1: '',
-      input: '',
-      tableData: [
-        {
-          date: 'PS2021040745538',
-          name: '汽车',
-          province: '电动',
-          city: '新品',
-          address: 'PR-PB221',
-          zip: 200333,
-          zt: '已立项'
-        },
-        {
-          date: 'PS2021040745538',
-          name: '汽车',
-          province: '电动',
-          city: '新品',
-          address: 'PR-PB221',
-          zip: 200333,
-          zt: '已立项'
-        },
-        {
-          date: 'PS2021040745538',
-          name: '汽车',
-          province: '电动',
-          city: '新品',
-          address: 'PR-PB221',
-          zip: 200333,
-          zt: '已立项'
-        },
-        {
-          date: 'PS2021040745538',
-          name: '汽车',
-          province: '电动',
-          city: '新品',
-          address: 'PR-PB221',
-          zip: 200333,
-          zt: '已立项'
-        },
-        {
-          date: 'PS2021040745538',
-          name: '汽车',
-          province: '电动',
-          city: '新品',
-          address: 'PR-PB221',
-          zip: 200333,
-          zt: '已立项'
-        }
-      ]
+      formData: {
+        categoryName: '',
+        subcategoryName: '',
+        productType: '',
+        erpSku: '',
+        model: '',
+        getDemandStatus: '',
+        team: '',
+        pmUserId: '',
+        status: '',
+        getPlmActiveGroup: '',
+        meetingDate: '',
+        upSelDate: ''
+      },
+      // 产品大类
+      categoryNameList: [],
+      // 产品小类
+      subcategoryNameList: [],
+      // 产品类型
+      productTypeListList: [],
+      // 事业部/team
+      getPlmActiveGroupList: [],
+      // 需求状态
+      statusList: [],
+      // PM
+      pmUserIdList: [],
+      proposalInfoNo: '',
+      // 总数据
+      tableData: [],
+      // 当前显示数据
+      tableView: [],
+      // 翻页
+      currentPage: 1,
+      pageSize: 10,
+      total: 0
     }
   },
+  created() {
+    this.handleGetCategoryList()
+    this.handleGetSubCategoryList()
+    this.handleGetProductTypeList()
+    this.handleGetPlmActiveGroupList()
+    this.handleGetDemandStatusList()
+    this.handleGetProductManagerList()
+    this.handleGetDemandList()
+    // const getList = () => new Promise((resolve,reject) => {
+    //   setTimeout(() => {
+    //     resolve([1,2,3])
+    //   }, 2000);
+    // })
+    // getList()
+    //   .then(data => {
+    //     console.log(data)
+    //   })
+    //   const promise = new Promise(function(resolve, reject) {
+    //   if (0){
+    //     resolve(1)
+    //   } else {
+    //     reject(2)
+    //   }
+    // });
+    // promise.then(function(value) {
+    //   console.log(value)
+    // }, function(error) {
+    //   // failure
+    //   console.log(error)
+    // })
+  },
   methods: {
+    // 数据获取
+    // 产品大类
+    handleGetCategoryList() {
+      getCategoryList().then(res => {
+        this.categoryNameList = res.data.data.getCategoryList
+      })
+    },
+    // 产品小类
+    handleGetSubCategoryList() {
+      getSubCategoryList().then(res => {
+        this.subcategoryNameList = res.data.data.getSubCategoryList
+      })
+    },
+    // 产品类型
+    handleGetProductTypeList() {
+      getProductTypeList().then(res => {
+        this.productTypeList = res.data.data.getDicList
+      })
+    },
+    // 事业部/team
+    handleGetPlmActiveGroupList() {
+      getPlmActiveGroupList().then(res => {
+        this.plmActiveGroupList = res.data.data.getPlmActiveGroupList
+      })
+    },
+    // 获取需求状态列表
+    handleGetDemandStatusList() {
+      getDemandStatusList().then(res => {
+        this.statusList = res.data.data.getDicList
+      })
+    },
+    // 获取PM用户列表
+    handleGetProductManagerList() {
+      getProductManagerList().then(res => {
+        this.pmUserIdList = res.data.data.getProductManagerList
+      })
+    },
+    // 获取需求列表
+    handleGetDemandList() {
+      getDemandList(this.formData).then(res => {
+        console.log(res.data[0]);
+        if (res.data.length !== 0) {
+          this.tableView = [] // 清除之前的数据
+          this.tableData = res.data
+          this.total = res.data.length
+          if (res.data.length >= this.pageSize) {
+            for (let i = 0; i < this.pageSize; i++) {
+              this.tableView.push(res.data[i])
+            }
+          } else {
+            this.tableView = res.data
+          }
+        }
+      })
+    },
+    async handleGetDemandListTest() {
+      // const res = await getDemandList(this.formData)
+      const { data } = await getDemandList(this.formData)
+      console.log(data[0])
+      if (data.length !== 0) {
+        this.tableView = [] // 清除之前的数据
+        this.tableData = data
+        this.total = data.length
+        if (data.length >= this.pageSize) {
+          for (let i = 0; i < this.pageSize; i++) {
+            this.tableView.push(data[i])
+          }
+        } else {
+          this.tableView = data
+        }
+      }
+    },
+    // 当前页码改变
+    handleCurrentChange(val) {
+      console.log(val)
+      if (val !== 1) {
+        val = (val - 1) * this.pageSize
+      }
+      const number = this.tableData.length
+      if (number > val + this.pageSize) {
+        this.tableView = this.tableData.slice(val, val + this.pageSize)
+      } else {
+        this.tableView = this.tableData.slice(val, this.tableData.length)
+      }
+    },
+    // 每页显示条数改变
+    handleSizeChange(newSize) {
+      this.pageSize = newSize
+      this.handleGetDemandList()
+    },
+    // 清除表单
+    clearBtn() {
+      Object.assign(this.$data, this.$options.data())
+      // 重新请求数据
+      this.handleGetCategoryList()
+      this.handleGetSubCategoryList()
+      this.handleGetProductTypeList()
+      this.handleGetPlmActiveGroupList()
+      this.handleGetDemandStatusList()
+      this.handleGetProductManagerList()
+      this.handleGetDemandList()
+    }
   }
 }
 </script>
@@ -354,6 +442,7 @@ export default {
   }
   .tab {
     margin-top: 20px;
+    height: 300px;
   }
   .page {
     margin-top: 10px;
