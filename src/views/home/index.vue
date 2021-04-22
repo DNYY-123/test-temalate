@@ -1,5 +1,5 @@
 <template>
-<class="container">
+<div class="container">
   <div class="tip">
     <el-row>
       <el-col :span="4" :offset="1">
@@ -14,8 +14,8 @@
       </el-col>
     </el-row>
   </div>
-  <!-- <div class="input-line">
-    <el-form :inline="true" class="demo-form-inline">
+  <div class="input-line">
+    <el-form :inline="true" class="" label-width="110px" label-position="right" size="small">
       <el-form-item label="产品大类">
         <el-select v-model="formData.categoryName" placeholder="请选择产品大类">
           <el-option
@@ -39,7 +39,7 @@
       <el-form-item label="产品类型">
         <el-select v-model="formData.productType" placeholder="请选择产品类型">
           <el-option
-            v-for="item in productTypeListList"
+            v-for="item in productTypeList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -96,27 +96,19 @@
           end-placeholder="结束日期">
         </el-date-picker>
       </el-form-item>
+      <br>
+      <div class="input-btn">
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" plain>搜索</el-button>
+          <el-button @click="clearBtn" icon="el-icon-refresh-left">重置</el-button>
+        </el-form-item>
+      </div>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
-      </el-form-item>
+          <el-button type="primary"  plain icon="el-icon-plus">新建需求</el-button>
+          <el-button type="info" icon="el-icon-document-copy" plain>复制</el-button>
+        </el-form-item>
     </el-form>
-  </div> -->
-  <div class="input-btn">
-    <el-row >
-      <el-col :span="6" :offset="8">
-        <el-button type="primary" plain icon="el-icon-search">搜索</el-button>
-      </el-col>
-      <el-col :span="6" :offset="0">
-        <el-button icon="el-icon-refresh-right" @click="clearBtn">重置</el-button>
-      </el-col>
-    </el-row>
   </div>
-  <el-row>
-    <el-col :span="6" :offset="1">
-      <el-button type="primary" plain>+新建需求</el-button>
-      <el-button>复制</el-button>
-    </el-col>
-  </el-row>
   <div class="tab">
     <el-table
       ref="multipleTable"
@@ -124,6 +116,8 @@
       tooltip-effect="dark"
       style="width:100%;"
       height="100%"
+      border
+      stripe
       >
       <el-table-column
         fixed
@@ -172,7 +166,7 @@
         ">
       </el-table-column>
       <el-table-column
-        prop="zip"
+        prop="groupName"
         label="事业部/team"
         width="250
         ">
@@ -184,15 +178,21 @@
         ">
       </el-table-column>
       <el-table-column
-        prop="zip"
+        prop="meetingDate"
         label="过会时间"
         width="250
         ">
       </el-table-column>
       <el-table-column
-        fixed="right"
         label="计划上架时间"
         prop="upSelfDate"
+        width="150
+        ">
+      </el-table-column>
+      <el-table-column
+      fixed="right"
+        label="项目状态"
+        prop="investigationResult"
         width="150
         ">
       </el-table-column>
@@ -203,7 +203,6 @@
         ">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData)"
             type="text"
             size="small">
             移除
@@ -258,21 +257,20 @@ export default {
       // 产品小类
       subcategoryNameList: [],
       // 产品类型
-      productTypeListList: [],
+      productTypeList: [],
       // 事业部/team
       getPlmActiveGroupList: [],
       // 需求状态
       statusList: [],
       // PM
       pmUserIdList: [],
-      proposalInfoNo: '',
       // 总数据
       tableData: [],
       // 当前显示数据
       tableView: [],
       // 翻页
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 5,
       total: 0
     }
   },
@@ -348,7 +346,7 @@ export default {
     // 获取需求列表
     handleGetDemandList() {
       getDemandList(this.formData).then(res => {
-        console.log(res.data[0]);
+        console.log(res.data[1])
         if (res.data.length !== 0) {
           this.tableView = [] // 清除之前的数据
           this.tableData = res.data
@@ -416,10 +414,10 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  width: 80%;
-  height: 800px;
+  width: 83%;
+  height: 100%;
   position: fixed;
-  right: 4%;
+  right: 1%;
   top: 4.2rem;
   background: #fff;
   border-radius: 4px;
@@ -429,23 +427,28 @@ export default {
     line-height: 60px;
   }
   .input-line {
-    text-align: right;
-    margin: 50px 0px;
-    .demonstration {
-      width: 10%;
-      font-weight: bold;
-      margin-right: 5px;
-    }
+    margin: 50px 30px;
+    font-weight: bold;
   }
   .input-btn {
-    margin: 20px 0;
+    text-align: center;
+    .el-button {
+      margin: 0px 20px;
+    }
   }
   .tab {
     margin-top: 20px;
-    height: 300px;
+    height: 270px;
   }
   .page {
     margin-top: 10px;
+  }
+  .el-form-item {
+    margin-top: 20px;
+    width: 350px;
+    .el-input__inner {
+      width: 199px !important;
+    }
   }
 }
 </style>
