@@ -363,23 +363,23 @@ export default {
         }
       })
     },
-    async handleGetDemandListTest() {
-      // const res = await getDemandList(this.formData)
-      const { data } = await getDemandList(this.formData)
-      console.log(data[0])
-      if (data.length !== 0) {
-        this.tableView = [] // 清除之前的数据
-        this.tableData = data
-        this.total = data.length
-        if (data.length >= this.pageSize) {
-          for (let i = 0; i < this.pageSize; i++) {
-            this.tableView.push(data[i])
-          }
-        } else {
-          this.tableView = data
-        }
-      }
-    },
+    // async handleGetDemandListTest() {
+    //   // const res = await getDemandList(this.formData)
+    //   const { data } = await getDemandList(this.formData)
+    //   console.log(data[0])
+    //   if (data.length !== 0) {
+    //     this.tableView = [] // 清除之前的数据
+    //     this.tableData = data
+    //     this.total = data.length
+    //     if (data.length >= this.pageSize) {
+    //       for (let i = 0; i < this.pageSize; i++) {
+    //         this.tableView.push(data[i])
+    //       }
+    //     } else {
+    //       this.tableView = data
+    //     }
+    //   }
+    // },
     // 当前页码改变
     handleCurrentChange(val) {
       console.log(val)
