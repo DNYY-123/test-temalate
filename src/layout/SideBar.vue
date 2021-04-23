@@ -4,27 +4,33 @@
       <el-col :span="24">
         <el-menu
           default-active="1"
+          default-openeds="/user"
           class="el-menu-vertical-demo"
           background-color="#fff"
           text-color="black"
           active-text-color="#377bf6"
           router>
           <el-menu-item index="/">
-            <i class="el-icon-menu"></i>
             <span slot="title">需求管理</span>
           </el-menu-item>
           <el-menu-item index="/user">
-            <i class="el-icon-document"></i>
-            <span slot="title">导航2</span>
+            <span slot="title">任务管理</span>
           </el-menu-item>
           <el-menu-item index="3">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航3</span>
+            <span slot="title">计划模板管理</span>
           </el-menu-item>
-          <el-submenu index="4">
+          <el-menu-item index="4">
+            <span slot="title">项目管理</span>
+          </el-menu-item>
+          <el-menu-item index="5">
+            <span slot="title">人员配置</span>
+          </el-menu-item>
+          <el-submenu index="6">
+            <el-menu-item index="7">
+            <span slot="title">流程人员配置</span>
+          </el-menu-item>
             <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>导航4</span>
+              <span>报表</span>
             </template>
             <el-menu-item-group>
               <template slot="title">分组一</template>
@@ -70,7 +76,7 @@ export default {
 
 <style lang="scss" scoped>
 .tab-menu {
-  width: 15%;
+  width: 11%;
   height: 100%;
   position: fixed;
   left: 0;

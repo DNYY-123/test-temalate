@@ -15,9 +15,9 @@
     </el-row>
   </div>
   <div class="input-line">
-    <el-form :inline="true" :model="formData" ref="formData" label-width="110px" label-position="right" size="small" class="demo-ruleForm">
+    <el-form :inline="true" :model="formData" ref="formData" label-width="100px" label-position="right" size="mini">
       <el-form-item label="产品大类" prop="categoryName">
-        <el-select v-model="formData.categoryName" placeholder="请选择产品大类">
+        <el-select @change="handleGetDemandList" v-model="formData.categoryName" placeholder="请选择产品大类" clearable>
           <el-option
             v-for="item in categoryNameList"
             :key="item.value"
@@ -26,8 +26,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="产品小类" prop="subcategoryName">
-        <el-select v-model="formData.subcategoryName" placeholder="请选择产品小类">
+      <el-form-item label="产品小类" prop="subCategoryName">
+        <el-select v-model="formData.subCategoryName" placeholder="请选择产品小类" clearable>
           <el-option
             v-for="item in subcategoryNameList"
             :key="item.value"
@@ -37,7 +37,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="产品类型" prop="productType">
-        <el-select v-model="formData.productType" placeholder="请选择产品类型">
+        <el-select v-model="formData.productType" placeholder="请选择产品类型" clearable>
           <el-option
             v-for="item in productTypeList"
             :key="item.value"
@@ -47,19 +47,19 @@
         </el-select>
       </el-form-item>
       <el-form-item label="SKU" prop="erpSku">
-        <el-input v-model="formData.erpSku" placeholder="请输入SKU"></el-input>
+        <el-input v-model="formData.erpSku" placeholder="请输入SKU" clearable></el-input>
       </el-form-item>
       <el-form-item label="Model" prop="model">
-        <el-input v-model="formData.model" placeholder="请输入Model"></el-input>
+        <el-input v-model="formData.model" placeholder="请输入Model" clearable></el-input>
       </el-form-item>
       <el-form-item label="需求编号" prop="getDemandStatus">
-        <el-input v-model="formData.getDemandStatus" placeholder="请输入需求编号"></el-input>
+        <el-input v-model="formData.getDemandStatus" placeholder="请输入需求编号" clearable></el-input>
       </el-form-item>
-      <el-form-item label="事业部/team" prop="team">
-        <el-input v-model="formData.team" placeholder="请输入事业部/team"></el-input>
+      <el-form-item label="事业部/team" prop="team" >
+        <el-input v-model="formData.team" placeholder="请输入事业部/team" clearable></el-input>
       </el-form-item>
       <el-form-item label="需求状态" prop="status">
-        <el-select v-model="formData.status" placeholder="请选择需求状态">
+        <el-select v-model="formData.status" placeholder="请选择需求状态" clearable>
           <el-option
             v-for="item in statusList"
             :key="item.value"
@@ -69,7 +69,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="PM" prop="pmUserId">
-        <el-select v-model="formData.pmUserId" placeholder="请选择PM">
+        <el-select v-model="formData.pmUserId" placeholder="请选择PM" clearable>
           <el-option
             v-for="item in pmUserIdList"
             :key="item.value"
@@ -84,7 +84,10 @@
           type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
-          end-placeholder="结束日期">
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          end-placeholder="结束日期"
+          clearable>
         </el-date-picker>
       </el-form-item>
       <el-form-item label="计划上架时间" prop="upSelDate">
@@ -93,13 +96,14 @@
           type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
-          end-placeholder="结束日期">
+          end-placeholder="结束日期"
+          clearable>
         </el-date-picker>
       </el-form-item>
       <br>
       <div class="input-btn">
         <el-form-item>
-          <el-button @click="search" type="primary" icon="el-icon-search" plain>搜索</el-button>
+          <el-button @click="handleGetDemandList" type="primary" icon="el-icon-searchData" plain>搜索</el-button>
           <el-button @click="clearBtn('formData')" icon="el-icon-refresh-left">重置</el-button>
         </el-form-item>
       </div>
@@ -115,9 +119,10 @@
       :data="tableView"
       tooltip-effect="dark"
       style="width:100%;"
-      height="100%"
+      :height="tableHeight"
       border
       stripe
+      v-loading="loading"
       >
       <el-table-column
         fixed
@@ -201,10 +206,11 @@
         label="操作"
         width="150
         ">
-        <template slot-scope="scope">
+        <template slot-scope="">
           <el-button
             type="text"
-            size="small">
+            size="small"
+          >
             移除
           </el-button>
         </template>
@@ -240,7 +246,7 @@ export default {
     return {
       formData: {
         categoryName: '',
-        subcategoryName: '',
+        subCategoryName: '',
         productType: '',
         erpSku: '',
         model: '',
@@ -252,6 +258,8 @@ export default {
         meetingDate: '',
         upSelDate: ''
       },
+      // 表格高度
+      tableHeight: null,
       // 产品大类
       categoryNameList: [],
       // 产品小类
@@ -268,10 +276,13 @@ export default {
       tableData: [],
       // 当前显示数据
       tableView: [],
+      // 查询到的数据
+      checkData: [],
       // 翻页
       currentPage: 1,
-      pageSize: 5,
-      total: 0
+      pageSize: 10,
+      total: 0,
+      loading: true
     }
   },
   created() {
@@ -345,29 +356,66 @@ export default {
     },
     // 获取需求列表
     handleGetDemandList() {
-      getDemandList(this.formData).then(res => {
-        if (res.data.length !== 0) {
-          this.tableView = [] // 清除之前的数据
-          this.tableData = res.data
-          this.total = res.data.length
-          if (res.data.length >= this.pageSize) {
-            for (let i = 0; i < this.pageSize; i++) {
-              this.tableView.push(res.data[i])
-            }
-          } else {
-            this.tableView = res.data
-          }
-        }
+      this.loading = true
+      const params = { ...this.formData }
+      if (params.meetingDate && params.meetingDate.length > 1) {
+        params.startMeetingDate = params.meetingDate[0]
+        params.endMeetingDate = params.meetingDate[1]
+      }
+      getDemandList(params).then(res => {
+        this.tableData = res.data
+        this.total = res.data.length
+        this.currentPage = 1
+        this.onPagination()
+        this.loading = false
       })
     },
+    // 分页， 切割数据
+    onPagination() {
+      this.tableView = this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+    },
     // 数据查询
-    search() {
-      console.log(1)
+    searchData() {
+      this.handleGetDemandList()
+      // this.checkData = []
+      // for (var i = 0; i <= this.total; i++) {
+      //   if (this.tableData[i]) {
+      //     if (this.formData.categoryName === this.tableData[i].categoryName) {
+      //       this.checkData.push(this.tableData[i])
+      //       this.tableView = this.checkData
+      //     }
+      //   }
+      // }
+    //   getDemandList(this.formData).then(res => {
+    //     this.submitForm(formName)
+    //     this.checkData = []
+    //     for (var i = 0; i <= this.total; i++) {
+    //       if (res.data[i]) {
+    //         if (this.formData.categoryName === res.data[i].categoryName) {
+    //           this.checkData.push(res.data[i])
+    //           this.tableView = this.checkData
+    //         }
+    //       }
+    //     }
+    //   })
+    // },
+    // submitForm(formName) {
+    //   this.$refs[formName].validate((valid, text) => {
+    //     if (!valid) {
+    //       console.log(1)
+    //       console.log(text)
+    //     } else {
+    //       // console.log('error submit!!')
+    //       console.log(text)
+    //       return false
+    //     }
+    //   })
     },
     // 清除表单
     clearBtn(formName) {
-      // Object.assign(this.$data, this.$options.data())
       this.$refs[formName].resetFields()
+      this.handleGetDemandList()
+      // Object.assign(this.$data, this.$options.data())
     },
     // async handleGetDemandListTest() {
     //   // const res = await getDemandList(this.formData)
@@ -388,20 +436,13 @@ export default {
     // },
     // 当前页码改变
     handleCurrentChange(val) {
-      if (val !== 1) {
-        val = (val - 1) * this.pageSize
-      }
-      const number = this.tableData.length
-      if (number > val + this.pageSize) {
-        this.tableView = this.tableData.slice(val, val + this.pageSize)
-      } else {
-        this.tableView = this.tableData.slice(val, this.tableData.length)
-      }
+      this.currentPage = val
+      this.onPagination()
     },
     // 每页显示条数改变
     handleSizeChange(newSize) {
       this.pageSize = newSize
-      this.handleGetDemandList()
+      this.onPagination()
     }
   }
 }
@@ -409,10 +450,10 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  width: 83%;
+  width: 88%;
   height: 100%;
-  position: fixed;
-  right: 1%;
+  margin-left: 11.5% ;
+  margin-top: 68px;
   top: 4.2rem;
   background: #fff;
   border-radius: 4px;
@@ -422,7 +463,7 @@ export default {
     line-height: 60px;
   }
   .input-line {
-    margin: 50px 30px;
+    margin: 50px 110px;
     font-weight: bold;
   }
   .input-btn {
@@ -433,10 +474,11 @@ export default {
   }
   .tab {
     margin-top: 20px;
-    height: 270px;
+    height: 100%;
   }
   .page {
     margin-top: 10px;
+    height: 60px;
   }
   .el-form-item {
     margin-top: 20px;

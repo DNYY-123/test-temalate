@@ -33,6 +33,9 @@ export default {
   height: 60px;
   width: 100%;
   line-height: 60px;
+  position: fixed;
+  top: 0;
+  z-index: 999;
   img {
     height: 50px;
     transform: translate(20px, 10%);

@@ -101,7 +101,7 @@ export default {
           console.log(text)
         } else {
           console.log('error submit!!')
-          console.log(text)
+          console.log(text.desc[0].field)
           return false
         }
       })
